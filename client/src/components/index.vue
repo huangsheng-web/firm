@@ -50,35 +50,31 @@
         <h2>动态实时查询</h2>
         <div class="mv_b3_box">
           <div id="scrollItem">
-            <p>
-              <span>176****5933  《十三猎杀》</span><span>152****6398  《光天化日》</span>
+            <p v-for="item in sList" :key="item.id">
+              <span v-for="sItem in item" :key="sItem.id">{{changeStr(sItem.phone)}}  《{{sItem.name}}》</span>
             </p>
-            <p><span>175****5696  《爱情出击》</span><span>176****5633  《十三猎杀》</span></p>
-            <p><span>175****5796  《小城故事》</span><span>175****5646  《遇见环市路》</span></p>
-            <p><span>138****6632  《爵迹2》</span><span>138****6032  《乱东京》</span></p>
-            <p><span>138****6132  《七月之后》</span><span>156****6226  《海上茉莉》</span></p>
-            <p><span>156****6126  《末路变奏曲》</span><span>156****6326  《伍子胥传奇》</span></p>
-            <p><span>138****6832  《再见少年》</span><span>156****6226  《海上茉莉》</span></p>
-            <p><span>176****5933  《90雄斌》</span><span>175****5796  《小城故事》</span></p>
-            <p><span>175****5696  《爱情出击》</span><span>176****5933  《90雄斌》</span></p>
-            <p><span>156****6126  《末路变奏曲》</span><span>175****5696  《遇见环市路》</span></p>
-            <p><span>175****5696  《爱情出击》</span><span>175****5696  《小城故事》</span></p>
-            <p><span>175****5796  《小城故事》</span><span>175****5646  《遇见环市路》</span></p>
-            <p><span>138****6632  《爵迹2》</span><span>138****6032  《乱东京》</span></p>
-            <p><span>138****6132  《七月之后》</span><span>156****6226  《海上茉莉》</span></p>
-            <p><span>156****6126  《末路变奏曲》</span><span>156****6326  《伍子胥传奇》</span></p>
-            <p><span>138****6832  《再见少年》</span><span>156****6226  《海上茉莉》</span></p>
-            <p><span>176****5933  《90雄斌》</span><span>175****5796  《小城故事》</span></p>
-            <p><span>175****5696  《爱情出击》</span><span>176****5933  《90雄斌》</span></p>
-            <p><span>156****6126  《末路变奏曲》</span><span>175****5696  《遇见环市路》</span></p>
-            <p><span>175****5696  《爱情出击》</span><span>175****5696  《小城故事》</span></p>
+            <!--<p><span>156****6126  《末路变奏曲》</span><span>156****6326  《伍子胥传奇》</span></p>-->
+            <!--<p><span>138****6832  《再见少年》</span><span>156****6226  《海上茉莉》</span></p>-->
+            <!--<p><span>176****5933  《90雄斌》</span><span>175****5796  《小城故事》</span></p>-->
+            <!--<p><span>175****5696  《爱情出击》</span><span>176****5933  《90雄斌》</span></p>-->
+            <!--<p><span>156****6126  《末路变奏曲》</span><span>175****5696  《遇见环市路》</span></p>-->
+            <!--<p><span>175****5696  《爱情出击》</span><span>175****5696  《小城故事》</span></p>-->
+            <!--<p><span>175****5796  《小城故事》</span><span>175****5646  《遇见环市路》</span></p>-->
+            <!--<p><span>138****6632  《爵迹2》</span><span>138****6032  《乱东京》</span></p>-->
+            <!--<p><span>138****6132  《七月之后》</span><span>156****6226  《海上茉莉》</span></p>-->
+            <!--<p><span>156****6126  《末路变奏曲》</span><span>156****6326  《伍子胥传奇》</span></p>-->
+            <!--<p><span>138****6832  《再见少年》</span><span>156****6226  《海上茉莉》</span></p>-->
+            <!--<p><span>176****5933  《90雄斌》</span><span>175****5796  《小城故事》</span></p>-->
+            <!--<p><span>175****5696  《爱情出击》</span><span>176****5933  《90雄斌》</span></p>-->
+            <!--<p><span>156****6126  《末路变奏曲》</span><span>175****5696  《遇见环市路》</span></p>-->
+            <!--<p><span>175****5696  《爱情出击》</span><span>175****5696  《小城故事》</span></p>-->
           </div>
         </div>
       </div>
       <div class="mv_b4">
         <h3 style="color: #f42338;">选择正规项目，远离非法平台</h3>
         <p style="color: #999999;">中国影视项目项目查询服务中心，坚决打击项目欺诈违法平台</p>
-        <p style="color: #ffffff;">版权所有@ 沪ICP备19012074 <a href="http://www.qianyuys.com/" target="_blank">关于我们</a></p>
+        <p style="color: #ffffff;">版权所有@ 沪ICP备19012074 <a href="http://www.qianyuys.com/" target="_blank" style="color: #409EFF;">关于我们</a></p>
       </div>
     </div>
     <el-dialog
@@ -133,6 +129,13 @@ export default {
     };
     return {
       tabList: ['平台查询','影片查询','出品方查询', '其他查询'],
+      sList: [
+//        {phone: '15039392239', name: '粉红色'},
+//        {phone: '15039392239', name: '粉红色'},
+//        {phone: '15039392239', name: '粉红色'},
+//        {phone: '15039392239', name: '粉红色'},
+//        {phone: '15039392239', name: '粉红色'}
+      ],
       curTab: 0,
       curName: '平台',
       dialog1: false,
@@ -153,14 +156,37 @@ export default {
     }
   },
   mounted () {
+    this.getInfoList();
     this.scrollList();
   },
   methods: {
+    getInfoList () {
+      this.sList = [];
+      this.axios.get('http://118.25.36.60:8081/getInfoList')
+        .then(res => {
+          if (res) {
+            for (let i = 0; i < res.data.data.length; i = i+ 2) {
+              let arr = [];
+              if (res.data.data[i]) {
+                arr.push(res.data.data[i])
+              }
+              if (res.data.data[i + 1]) {
+                arr.push(res.data.data[i + 1])
+              }
+              this.sList.push(arr)
+            }
+          }
+        })
+    },
     scrollList () {
-      startMove(document.getElementById('scrollItem'), {'top': -300}, () => {
-        document.getElementById('scrollItem').style.top = 0;
-        this.scrollList();
-      })
+      let obj = document.getElementById('scrollItem');
+      if (obj.clientHeight > 210) {
+        let h = 210 - obj.clientHeight;
+        startMove(document.getElementById('scrollItem'), {'top': h}, () => {
+          document.getElementById('scrollItem').style.top = 0;
+          this.scrollList();
+        })
+      }
     },
     tabTip (item, index) {
       this.curTab = index;
@@ -208,6 +234,10 @@ export default {
       this.dialog2 = false;
       this.formInline.name = ''
       this.formInline.phone = ''
+    },
+    changeStr (str) {
+      let s = str.slice(0, 3) + '****' + str.slice(7, 11)
+      return s;
     }
   }
 }
@@ -318,7 +348,7 @@ export default {
       position: relative;
       > div {
         position: absolute;
-        padding-left: 200px;
+        padding-left: 266px;
         p{
           display: flex;
           span {

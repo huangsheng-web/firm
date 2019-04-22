@@ -18,21 +18,82 @@
           </el-form>
           <div class="lg_btn">
             <el-button  @click="loginSubmit()" :loading="loginBtnLoading" :disabled="!loginForm.userMobile || !loginForm.userPassword" >登&nbsp;&nbsp;录</el-button>
+            <el-button style="margin-left: 20px;" @click="showDialog" >修改密码</el-button>
           </div>
         </div>
       </div>
     </div>
+    <el-dialog
+      title="修改账号密码"
+      :visible.sync="dialog2"
+      :close-on-click-modal="false"
+      width="400px">
+      <el-dialog
+        width="200px"
+        title="修改成功"
+        :visible.sync="innerVisible"
+        append-to-body>
+        <el-button style="margin-left: 50px;" type="primary" @click="hideDialog">确定</el-button>
+      </el-dialog>
+      <el-form :model="reviseInfo" :rules="rules" ref="ruleForm1" class="demo-ruleForm1" style="margin-top: 30px;">
+        <el-form-item prop="oldName">
+          <el-input v-model="reviseInfo.oldName" placeholder="请输入旧的账号名"></el-input>
+        </el-form-item>
+        <el-form-item prop="newName">
+          <el-input v-model="reviseInfo.newName" placeholder="请输入新的账号名"></el-input>
+        </el-form-item>
+        <el-form-item prop="oldPass">
+          <el-input v-model="reviseInfo.oldPass" placeholder="请输入旧的密码"></el-input>
+        </el-form-item>
+        <el-form-item prop="newPass">
+          <el-input v-model="reviseInfo.newPass" type="password" placeholder="请输入新的密码"></el-input>
+        </el-form-item>
+        <el-form-item prop="confirmPass">
+          <el-input v-model="reviseInfo.confirmPass" type="password" placeholder="请再次输入新的密码"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button style="width: 100%;" :loading="reviseLoading" type="primary" @click="onSubmit">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
   export default {
     data () {
+      var checkPass = (rule, value, callback) => {
+        if (value) {
+          if (value !== this.reviseInfo.newPass) {
+            return callback(new Error('两次密码必须一致'));
+          }
+        } else {
+          return callback(new Error('密码不能为空'))
+        }
+        callback();
+      }
       return {
+        dialog2: false,
+        innerVisible: false,
         loginForm: {
           userMobile: '',
           userPassword: ''
         },
-        loginBtnLoading: false
+        reviseInfo: {
+          oldName: '',
+          oldPass: '',
+          newName: '',
+          newPass: '',
+          confirmPass: ''
+        },
+        rules: {
+          oldName: [{required: true, message: '账号不能为空', trigger: blur}],
+          oldPass: [{required: true, message: '密码不能为空', trigger: blur}],
+          newName: [{required: true, message: '账号不能为空', trigger: blur}],
+          newPass: [{required: true, message: '密码不能为空', trigger: blur}],
+          confirmPass: [{validator: checkPass, trigger: blur}]
+        },
+        loginBtnLoading: false,
+        reviseLoading: false
       }
     },
     mounted () {
@@ -40,15 +101,50 @@
     methods: {
       loginSubmit () {
         this.loginBtnLoading = true;
-        setTimeout(()=> {
-          if (this.loginForm.userMobile === 'admin' && this.loginForm.userPassword === 'admin') {
-            this.loginBtnLoading = false;
-            this.$router.push({name: 'admin', params: {sd: true}})
+        this.axios.post('http://118.25.36.60:8081/login', this.loginForm)
+            .then(res => {
+              if (res && res.data.code === '00000000') {
+                this.loginBtnLoading = false;
+                this.$router.push({name: 'admin', params: {sd: true}})
+              } else {
+                this.loginBtnLoading = false;
+                this.$message.error('用户名或密码错误')
+              }
+            })
+      },
+      onSubmit () {
+        this.reviseLoading = true;
+        this.$refs.ruleForm1.validate((valid) => {
+          if (valid) {
+            this.axios.post('http://118.25.36.60:8081/updateUserInfo', this.reviseInfo)
+                .then(res => {
+                  if (res && res.data.code === '00000000') {
+                    this.reviseLoading = false;
+                    this.innerVisible = true;
+                  } else {
+                    this.reviseLoading = false;
+                    this.$message.error('修改失败，原账号密码输入错误')
+                  }
+                })
           } else {
-            this.loginBtnLoading = false;
-            this.$message.error('用户名或密码错误')
+            this.reviseLoading = false;
+            return false;
           }
-        }, 2000)
+        });
+      },
+      showDialog () {
+        this.dialog2 = true;
+        this.reviseInfo = {
+          oldName: '',
+          oldPass: '',
+          newName: '',
+          newPass: '',
+          confirmPass: ''
+        }
+      },
+      hideDialog () {
+        this.innerVisible = false;
+        this.dialog2 = false;
       }
     }
   }
